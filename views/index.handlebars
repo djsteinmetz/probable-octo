@@ -1,0 +1,66 @@
+<div class="container main">
+
+  <div class="row">
+    <div class="col-md-8">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="headers">Opportunities</h2>
+            <hr />
+          </div>
+        </div>
+        {{!-- ACTIVE USER INFO --}}
+        {{#if activeUser}}
+        {{activeUser.name}}
+        {{activeUser.id}}
+        {{activeUser.bio}}
+        {{/if}}
+        {{!-- // ACTIVE USER INFO --}}
+        {{#each opportunities}} {{> opportunities/opportunity-block}} {{/each}} {{#unless opportunities}}
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="bold">There are no opportunities available at this time!</h2>
+          </div>
+        </div>
+        {{/unless}}
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card upcoming">
+              <div class="card-header">
+                <h3 class="thin" style="font-size: 1.4rem">Upcoming Opportunities</h3>
+              </div>
+              <ul class="list-group list-group-flush">
+                {{#each recentOpportunities}}
+                <li class="list-group-item bold" style="font-size: 1rem"><a href="/opportunities/{{id}}">{{name}}</a></li>
+                {{/each}}
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="recent-galleries">
+                <div class="card-header">
+                  <h3 class="thin" style="font-size: 1.4rem">Recent Galleries</h3>
+                </div>
+                <ul class="list-group list-group-flush">
+                  {{#each users}}
+                  <li class="list-group-item bold" style="font-size: 1rem">{{name}}</li>
+                  {{/each}}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>

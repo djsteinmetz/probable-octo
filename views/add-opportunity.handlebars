@@ -1,0 +1,38 @@
+<div class="container main" id="addOpportunity">
+  <div class="row">
+    <div class="col-md-12">
+      <h2 class="headers">Add an Opportunity</h2>
+      <hr />
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <form>
+        <div class="form-group">
+          <label for="name">Opportunity Name</label>
+          <input type="input" class="form-control" id="name" placeholder="Name of Opportunity">
+        </div>
+        <div class="form-group">
+          <label for="description">Description</label>
+          <textarea class="form-control" id="description" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="category">  Category</label>
+          <select class="form-control" id="category">
+            <option>All</option>
+            <option>Painting</option>
+            <option>Photography</option>
+            <option>Performance</option>
+            <option>Abstract</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="deadline">Deadline</label>
+          <input class="form-control" type="date" value="2018-08-19" id="deadline">
+        </div>
+        <button class="btn btn-light" id="submitOpportunity">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
+<script src="/js/add-opportunity.js"></script>

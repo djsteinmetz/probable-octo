@@ -1,0 +1,26 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="bold">{{name}}</h2>
+            </div>
+            <div class="card-body">
+                <div class="card-text">
+                    {{description}}
+                </div>
+                {{#if Items}}
+                    <p class="thin">Items in this collection</p>
+                {{/if}}
+                {{#unless Items}}
+                    <p class="thin">There are no items in this collection</p>
+                {{/unless}}
+                <ol>
+                    {{#each Items}}
+                    <li>{{name}} | <a href="{{imageUrl}}" target="_blank">View the image</a></li>
+                    <p>Description: {{description}}</p>
+                    {{/each}}
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,10 @@
+SELECT * FROM Opportunities;
+SELECT * FROM Users;
+SELECT * FROM Collections;
+SELECT * FROM Items;
+INSERT INTO Users(name, createdAt, updatedAt) VALUES("DJ", "2018-08-20", "2018-08-20");
+INSERT INTO Opportunities(name, description, UserId, createdAt, updatedAt) VALUES("Flower Photographs", "This show is for photographs of flowers", 1, "2018-07-20", "2018-08-20");
+INSERT INTO Collections(name, description, UserId, createdAt, updatedAt) VALUES("Flowers of Arizona", "Flowers from Arizona is a collection of flower photographs, from the deserts in Arizona", 1, "2018-08-15", "2018-08-20");
+INSERT INTO Items(name, description, imageUrl, collectionId, createdAt, updatedAt) VALUES("Peony", "This is a pink Peony", "https://i.imgur.com/gmBlm15.jpg", 2, "2018-07-20", "2018-08-20"); 
+INSERT INTO Items(name, description, imageUrl, collectionId, createdAt, updatedAt) VALUES("Cactus Flower", "This is a photo of a cactus flower from Arizona.", "https://i.imgur.com/EIDcRHU.jpg",2, "2018-07-20", "2018-08-20"); 
+INSERT INTO Items(name, description, imageUrl, collectionId, createdAt, updatedAt) VALUES("Ghost Flower", "This is a pink Ghost Flower. They are cool, right?", "https://i.imgur.com/jc5URxw.jpg", 2, "2018-07-20", "2018-08-20"); 
