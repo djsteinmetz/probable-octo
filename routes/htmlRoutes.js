@@ -39,33 +39,35 @@ module.exports = function (app) {
     });
   });
   // GET for admin view of user profile who've applied to specific opportunity
-  app.get('/users/:id/:opID', auth.isAdmin, function (req, res) {
+  app.get('/opportunities/:opId/applicants/:userId', auth.isAdmin, function (req, res) {
     console.log('here');
     db.Opportunity.findAll({
-      where: { id: req.params.opID },
+      where: { id: req.params.opId },
       include: [{
         model: db.Collection,
         where: {
-          OpportunityId: req.params.opID
+          OpportunityId: req.params.opId
         },
         include: [{
           model: db.User,
           where: {
-            id: req.params.id
+            id: req.params.userId
           }
         }, {model: db.Item}]
       }]
     }).then(data => {
-      var hbsObj = {
-        opportunity: data[0],
-        collection: data[0].Collections[0],
-        activeUser: req.user,
-        isAdmin: getAdmin(req)
-      };
-      console.log('````````````````````````', data[0].Collections[0].name);
-      res.render('applicant-profile', hbsObj);
+      res.json(data);
+      // var hbsObj = {
+      //   opportunity: data[0],
+      //   collection: data[0].Collections[0],
+      //   activeUser: req.user,
+      //   isAdmin: getAdmin(req)
+      // };
+      // console.log('````````````````````````', data[0].Collections[0].name);
+      // res.render('applicant-profile', hbsObj);
     });
   });
+
   // Show the form to add opportunities.  Uncomment auth.isAdmin to require auth.
   app.get('/opportunities/new', auth.isAdmin, function (req, res) {
     var hbsObj = {

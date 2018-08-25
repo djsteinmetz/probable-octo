@@ -9,7 +9,7 @@ $(document).ready(function () {
       // let applicantsString = data.filter(obj => obj !== null).map(obj => obj.name).join(', ');
       let links = [];
       for(var i=0; i<data.length; i++) {
-        let $a = $(`<a href='/users/${data[i].id}'>${data[i].name}</a>`);
+        let $a = $(`<a href='/opportunities/${opId}/applicants/${data[i].id}'>${data[i].name}</a>`);
         $(div).append($a);
       }
     });
