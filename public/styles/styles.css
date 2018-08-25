@@ -151,6 +151,14 @@ form {
 <<<<<<< HEAD
 =======
 }
+#my, 
+#canvas {
+  color: black;
+}
+#my:hover,
+#canvas:hover {
+  text-decoration: none;
+}
 
 /* Jumbotron */
 .jumbotron-fluid {
