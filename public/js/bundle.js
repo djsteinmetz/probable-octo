@@ -21,7 +21,9 @@ require=(function(){
   const malarkey = require('malarkey');
   const element = document.querySelector('.typewriter');
   function callback(text) {
-    element.textContent = text;
+    if(element) {
+      element.textContent = text;
+    }
   }
   const options = {
     typeSpeed: 50,

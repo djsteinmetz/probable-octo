@@ -19,12 +19,13 @@ module.exports = function (app) {
         admin = false;
       }
     }
-    console.log('ADMIN STATUS: ', admin);
+    //console.log('ADMIN STATUS: ', admin);
     db.Opportunity.findAll({
       include: [db.User]
     }).then(function (dbOpportunities) {
       db.User.findAll({where: {permissions: 'admin'}}).then(function (dbUsers) {
         db.Opportunity.findAll({ limit: 5 }).then(function (dbRecentOp) {
+          //console.log('!!!!!!!!!',dbRecentOp);
           var hbsObj = {
             opportunities: dbOpportunities,
             recentOpportunities: dbRecentOp,
@@ -33,7 +34,7 @@ module.exports = function (app) {
             homepage: true,
             isAdmin: admin
           };
-          console.log(hbsObj);
+          //console.log(hbsObj);
           res.render('index', hbsObj);
         });
       });
@@ -66,7 +67,7 @@ module.exports = function (app) {
         },
         include: [db.Item]
       }).then(function (dbCollections) {
-        console.log('!~~~~~', dbCollections);
+        //console.log('!~~~~~', dbCollections);
         var admin;
         if (req.user) {
           if (req.user.permissions === 'admin') {
@@ -129,7 +130,7 @@ module.exports = function (app) {
           activeUser: req.user,
           isAdmin: admin
         };
-        console.log(hbsObj);
+        //console.log(hbsObj);
         res.render('opportunity-details', hbsObj);
       });
     });
@@ -157,7 +158,7 @@ module.exports = function (app) {
           activeUser: req.user,
           isAdmin: admin
         };
-        console.log(hbsObj);
+        //console.log(hbsObj);
         res.render('apply', hbsObj);
       });
     });
