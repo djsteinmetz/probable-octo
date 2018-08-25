@@ -59,6 +59,25 @@ module.exports = function (app) {
     });
   });
 
+  app.get('/api/opportunities/:id/applicants', function (req, res) {
+    db.Collection.findAll({
+      where: { OpportunityId: req.params.id },
+      include: [{
+        model: db.User,
+        attributes: ['id', 'name']
+      }]
+    }).then(dbCollection => {
+      let userNames = dbCollection.map(function (collection) {
+        if (collection.User) {
+          return {id: collection.User.id, name: collection.User.name};
+        } else {
+          return null;
+        }
+      });
+      res.json(userNames);
+    });
+  });
+
   /************************\
   |  AUTHENTICATED ROUTES  |
   \************************/

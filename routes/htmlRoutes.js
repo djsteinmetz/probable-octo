@@ -8,18 +8,15 @@ module.exports = function (app) {
   app.get('/register', function (req, res) {
     res.render('register');
   });
-
+  function getAdmin(req) {
+    if (req.user) {
+      return req.user.permissions === 'admin';
+    } else {
+      return false;
+    }
+  }
   // Load index page
   app.get('/', function (req, res) {
-    var admin;
-    if (req.user) {
-      if (req.user.permissions === 'admin') {
-        admin = true;
-      } else {
-        admin = false;
-      }
-    }
-    console.log('ADMIN STATUS: ', admin);
     db.Opportunity.findAll({
       include: [db.User]
     }).then(function (dbOpportunities) {
@@ -31,7 +28,7 @@ module.exports = function (app) {
             users: dbUsers,
             activeUser: req.user,
             homepage: true,
-            isAdmin: admin
+            isAdmin: getAdmin(req)
           };
           console.log(hbsObj);
           res.render('index', hbsObj);
