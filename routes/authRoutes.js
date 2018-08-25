@@ -1,3 +1,4 @@
+const auth = require('../config/authHelpers');
 
 module.exports = function (app, passport) {
 
@@ -5,7 +6,8 @@ module.exports = function (app, passport) {
     successRedirect: '/',
     failureRedirect: '/register'
   }));
-  app.post('/changepass', passport.authenticate('local-changepass', {
+
+  app.post('/changepass', auth.isLoggedIn, passport.authenticate('local-changepass', {
     successRedirect: '/login',
     failureRedirect: '/changepass'
   }));

@@ -16,7 +16,7 @@ module.exports = function (app) {
   app.get('/register', function(req, res) {
     res.render('register');
   });
-  app.get('/changepass', function(req, res) {
+  app.get('/changepass', auth.isLoggedIn, function(req, res) {
     res.render('changepass');
   });
   // Load index page

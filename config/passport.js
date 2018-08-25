@@ -133,7 +133,8 @@ module.exports = function (passport, user) {
 
       User.findOne({
         where: {
-          email: email
+          email: email,
+          id: req.user.id
         }
       })
         .then(dbUser => {
@@ -167,7 +168,7 @@ module.exports = function (passport, user) {
               transporter.sendMail(mailOptions, function (error, info) {
                 console.log('SEND TO EMAIL');
                 if (error) {
-                  console.log("WHY IS THERE AN ERROR", error);
+                  console.log('WHY IS THERE AN ERROR', error);
                 } else {
                   console.log('Email sent: ' + info.response);
                 }
