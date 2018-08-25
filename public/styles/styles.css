@@ -100,7 +100,9 @@ form {
 .btn-light {
   font-weight: 700!Important;
 }
-
+#deleteOp:hover {
+  color: red;
+}
 /* Sign up // Register */
 
 .login-form {
@@ -142,4 +144,27 @@ form {
 }
 #logout:hover {
   color: red;
+}
+
+/* Jumbotron */
+.jumbotron-fluid {
+  height: 175px;
+  vertical-align: middle;
+  line-height: 1;
+}
+#typewriterJumbotron{
+  font-size: 2rem;
+  font-weight: 100;
+  margin-left: 10px;
+  text-align: left;
+}
+@media only screen and (max-width: 992px) {
+  #divider {
+    display: none;
+  }
+}
+@media only screen and (max-width: 860px) {
+  #typewriterJumbotron {
+    display: none;
+  }
 }
