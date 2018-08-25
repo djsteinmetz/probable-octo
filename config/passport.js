@@ -36,10 +36,10 @@ module.exports = function (passport, user) {
       };
 
       User.findOne({
-          where: {
-            email: email
-          }
-        })
+        where: {
+          email: email
+        }
+      })
         .then(dbUser => {
           if (dbUser) {
             return done(null, false, {
@@ -70,44 +70,44 @@ module.exports = function (passport, user) {
   ));
 
   passport.use('local-signin', new LocalStrategy({
-      usernameField: 'email',
-      passwordField: 'password',
-      passReqToCallback: true
-    },
+    usernameField: 'email',
+    passwordField: 'password',
+    passReqToCallback: true
+  },
 
-    function (req, email, password, done) {
-      const User = user;
-      const isValidPassword = function (userpass, password) {
-        return bCrypt.compareSync(password, userpass);
-      };
+  function (req, email, password, done) {
+    const User = user;
+    const isValidPassword = function (userpass, password) {
+      return bCrypt.compareSync(password, userpass);
+    };
 
-      User.findOne({
-          where: {
-            email: email
-          }
-        })
-        .then(dbUser => {
-          if (!dbUser) {
-            return done(null, false, {
-              message: 'Email does not exist.'
-            });
-          }
-
-          if (!isValidPassword(dbUser.password, password)) {
-            return done(null, false, {
-              message: 'Incorrect password.'
-            });
-          }
-
-          const userinfo = dbUser.get();
-          return done(null, userinfo);
-        }).catch(err => {
-          console.log('Error: ', err);
+    User.findOne({
+      where: {
+        email: email
+      }
+    })
+      .then(dbUser => {
+        if (!dbUser) {
           return done(null, false, {
-            message: 'Something went wrong with signin.'
+            message: 'Email does not exist.'
           });
+        }
+
+        if (!isValidPassword(dbUser.password, password)) {
+          return done(null, false, {
+            message: 'Incorrect password.'
+          });
+        }
+
+        const userinfo = dbUser.get();
+        return done(null, userinfo);
+      }).catch(err => {
+        console.log('Error: ', err);
+        return done(null, false, {
+          message: 'Something went wrong with signin.'
         });
-    }
+      });
+  }
   ));
 
   passport.use('local-changepass', new LocalStrategy(
@@ -120,56 +120,56 @@ module.exports = function (passport, user) {
     },
 
     function (req, email, password, done) {
-      
+
       var generateHash = function (password) {
-        
+
         return bCrypt.hashSync(password, bCrypt.genSaltSync(8), null);
       };
 
       User.findOne({
-          where: {
-            email: email
-          }
-        })
+        where: {
+          email: email
+        }
+      })
         .then(dbUser => {
           if (dbUser) {
 
             let userPassword = generateHash(password);
-           
+
 
             User.update({
-                password: userPassword
-              }, {
-                where: {
-                  email: email
+              password: userPassword
+            }, {
+              where: {
+                email: email
+              }
+            }).then(function (rowsUpdated) {
+              var transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                  user: 'joehoffmann095@gmail.com',
+                  pass: 'Jjh@5682'
                 }
-              }).then(function (rowsUpdated) {
-                var transporter = nodemailer.createTransport({
-                  service: 'gmail',
-                  auth: {
-                    user: 'joehoffmann095@gmail.com',
-                    pass: 'Jjh@5682'
-                  }
-                });
-                
-                var mailOptions = {
-                  from: 'joehoffmann095@gmail.com',
-                  to: email,
-                  subject: 'PASSWORD CHANGED',
-                  text: 'The password linked to this email has been changed!  If this was not you please contact customer support.'
-                };
-                
-                transporter.sendMail(mailOptions, function(error, info){
-                 console.log('SEND TO EMAIL')
-                  if (error) {
-                    console.log("WHY IS THERE AN ERROR", error);
-                  } else {
-                    console.log('Email sent: ' + info.response);
-                  }
-                });
-                return done(null, dbUser);
-              })
-              .catch(function(err){
+              });
+
+              var mailOptions = {
+                from: 'joehoffmann095@gmail.com',
+                to: email,
+                subject: 'PASSWORD CHANGED',
+                text: 'The password linked to this email has been changed!  If this was not you please contact customer support.'
+              };
+
+              transporter.sendMail(mailOptions, function (error, info) {
+                console.log('SEND TO EMAIL');
+                if (error) {
+                  console.log("WHY IS THERE AN ERROR", error);
+                } else {
+                  console.log('Email sent: ' + info.response);
+                }
+              });
+              return done(null, dbUser);
+            })
+              .catch(function (err) {
                 console.log(err);
               });
 
