@@ -1,0 +1,36 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card login-form">
+                <div class="card-header">
+                    <p class="bold text-center">BRANDING HERE</p>
+                </div>
+                <div class="card-body">
+                    <form action="/changepass" method="post">
+                    <h2 class="text-center headers">Change Password</h2>
+                    <div class="form-group">
+                        <input type="text" class="form-control thin" placeholder="Email" name="email" required="required">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control thin" placeholder="Change Password" name="change-password" required="required">
+                    </div>
+                     <div class="form-group">
+                        <input type="password" class="form-control thin" placeholder="Confirm Password" name="confirm-password" required="required">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-light btn-block bold">Submit</button>
+                    </div>
+                    {{!-- <div class="clearfix">
+                        <label class="pull-left checkbox-inline"><input type="checkbox"> Remember me</label>
+                        <a href="#" class="pull-right">Forgot Password?</a>
+                    </div> --}}
+                    </form>
+                </div>
+                <div class="card-footer">
+                    <p class="text-center bold" style="font-size: 1.05rem"><a href="/register">Not a member? Create an Account</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
