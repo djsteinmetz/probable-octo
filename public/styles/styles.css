@@ -145,6 +145,14 @@ form {
 #logout:hover {
   color: red;
 }
+#my, 
+#canvas {
+  color: black;
+}
+#my:hover,
+#canvas:hover {
+  text-decoration: none;
+}
 
 /* Jumbotron */
 .jumbotron-fluid {
