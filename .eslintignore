@@ -1,4 +1,4 @@
 node_modules
 models/index.js
-server.js
-routes/htmlRoutes.js
+# server.js
+# routes/htmlRoutes.js
