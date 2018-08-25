@@ -75,8 +75,6 @@ app.engine(
         }
       },
       formatDate: function (date, format) {
-        console.log("date format:");
-        console.log(date + ':' + format);
         return moment(date).format(format);
       }
     }
