@@ -1,6 +1,14 @@
 const db = require('../models');
 const auth = require('../config/authHelpers');
 
+function getAdmin(req) {
+  if (req.user) {
+    return req.user.permissions === 'admin';
+  } else {
+    return false;
+  }
+}
+
 module.exports = function (app) {
   app.get('/login', function (req, res) {
     res.render('login');
@@ -8,19 +16,12 @@ module.exports = function (app) {
   app.get('/register', function (req, res) {
     res.render('register');
   });
-  function getAdmin(req) {
-    if (req.user) {
-      return req.user.permissions === 'admin';
-    } else {
-      return false;
-    }
-  }
   // Load index page
   app.get('/', function (req, res) {
     db.Opportunity.findAll({
       include: [db.User]
     }).then(function (dbOpportunities) {
-      db.User.findAll({where: {permissions: 'admin'}}).then(function (dbUsers) {
+      db.User.findAll({ where: { permissions: 'admin' } }).then(function (dbUsers) {
         db.Opportunity.findAll({ limit: 5 }).then(function (dbRecentOp) {
           var hbsObj = {
             opportunities: dbOpportunities,
@@ -39,17 +40,9 @@ module.exports = function (app) {
 
   // Show the form to add opportunities.  Uncomment auth.isAdmin to require auth.
   app.get('/opportunities/new', auth.isAdmin, function (req, res) {
-    var admin;
-    if (req.user) {
-      if (req.user.permissions === 'admin') {
-        admin = true;
-      } else {
-        admin = false;
-      }
-    }
     var hbsObj = {
       activeUser: req.user,
-      isAdmin: admin
+      isAdmin: getAdmin(req)
     };
     res.render('add-opportunity', hbsObj);
   });
@@ -63,19 +56,10 @@ module.exports = function (app) {
         },
         include: [db.Item]
       }).then(function (dbCollections) {
-        console.log('!~~~~~', dbCollections);
-        var admin;
-        if (req.user) {
-          if (req.user.permissions === 'admin') {
-            admin = true;
-          } else {
-            admin = false;
-          }
-        }
         var hbsObj = {
           collections: dbCollections,
           activeUser: req.user,
-          isAdmin: admin
+          isAdmin: getAdmin(req)
         };
         res.render('collections', hbsObj);
       });
@@ -84,21 +68,13 @@ module.exports = function (app) {
     }
   });
   app.get('/collections', auth.isAdmin, function (req, res) {
-    var admin;
-    if (req.user) {
-      if (req.user.permissions === 'admin') {
-        admin = true;
-      } else {
-        admin = false;
-      }
-    }
     db.Collection.findAll({
       include: [db.Item]
     }).then(function (dbCollections) {
       var hbsObj = {
         collections: dbCollections,
         activeUser: req.user,
-        isAdmin: admin
+        isAdmin: getAdmin(req)
       };
       res.render('collections', hbsObj);
     });
@@ -111,20 +87,12 @@ module.exports = function (app) {
       },
       include: [db.User]
     }).then(function (dbApply) {
-      var admin;
-      if(req.user) {
-        if (req.user.permissions === 'admin') {
-          admin = true;
-        } else {
-          admin = false;
-        }
-      }
       db.Collection.findAll({}).then(function (dbCollections) {
         var hbsObj = {
           opportunity: dbApply,
           collections: dbCollections,
           activeUser: req.user,
-          isAdmin: admin
+          isAdmin: getAdmin(req)
         };
         console.log(hbsObj);
         res.render('opportunity-details', hbsObj);
@@ -133,26 +101,18 @@ module.exports = function (app) {
   });
   // apply route to get the 'selected' opportunity and 'your' collections
   app.get('/opportunities/:id/apply/:opID', function (req, res) {
-    var admin;
-    if(req.user) {
-      if (req.user.permissions === 'admin') {
-        admin = true;
-      } else {
-        admin = false;
-      }
-    }
     db.Opportunity.findOne({
       where: {
         id: req.params.opID
       },
       include: [db.User]
     }).then(function (dbApply) {
-      db.Collection.findAll({where: {UserId: req.params.id}}).then(function (dbCollections) {
+      db.Collection.findAll({ where: { UserId: req.params.id } }).then(function (dbCollections) {
         var hbsObj = {
           opportunity: dbApply,
           collections: dbCollections,
           activeUser: req.user,
-          isAdmin: admin
+          isAdmin: getAdmin(req)
         };
         console.log(hbsObj);
         res.render('apply', hbsObj);
