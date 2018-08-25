@@ -4,23 +4,15 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
-<<<<<<< HEAD
-                        <h2 class="headers">My Collections</h2>
-=======
                         {{#compare isAdmin true}}<h2 class="headers">All Collections</h2>{{/compare}}
                         {{#compare isAdmin false}}<h2 class="headers">My Collections</h2>{{/compare}}
->>>>>>> da84f94328b286460091d8ead750da13aa9f4e37
                         <hr />
                     </div>
                 </div>
                 {{#unless collections}}
                 <div class="row">
                     <div class="col-md-12">
-<<<<<<< HEAD
-                        <h2 class="bold">There are no opportunities available at this time!</h2>
-=======
                         <h2 class="bold">You haven't added any collections!</h2>
->>>>>>> da84f94328b286460091d8ead750da13aa9f4e37
                     </div>
                 </div>
                 {{/unless}} {{#each collections}} {{> collections/collection-block}} {{/each}}
@@ -39,11 +31,7 @@
                         <form>
                             <div class="form-group">
                                 <label for="collectionName">Collection Name</label>
-<<<<<<< HEAD
-                                <input type="email" class="form-control" id="collectionName" placeholder="Enter the name of your collection">
-=======
                                 <input type="input" class="form-control" id="collectionName" placeholder="Enter the name of your collection">
->>>>>>> da84f94328b286460091d8ead750da13aa9f4e37
                             </div>
                             <div class="form-group">
                                 <label for="collectionDescription">Description</label>
@@ -93,8 +81,5 @@
         </div>
     </div>
 </div>
-<<<<<<< HEAD
-=======
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
->>>>>>> da84f94328b286460091d8ead750da13aa9f4e37
 <script src="/js/collections.js"></script>

@@ -16,11 +16,7 @@ app.use(bodyParser.json());
 app.use(express.static('public'));
 
 // For Passport
-<<<<<<< HEAD
 app.use(session({ secret: 'magical secret pony or something',resave: true, saveUninitialized:true})); // session secret
-=======
-app.use(session({ secret: 'magical secret pony or something', resave: true, saveUninitialized: true })); // session secret
->>>>>>> da84f94328b286460091d8ead750da13aa9f4e37
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 
@@ -28,9 +24,6 @@ app.use(passport.session()); // persistent login sessions
 app.engine(
   'handlebars',
   exphbs({
-<<<<<<< HEAD
-    defaultLayout: 'main'
-=======
     defaultLayout: 'main',
     helpers: {
       compare: function(lvalue, rvalue, options) {
@@ -81,7 +74,6 @@ app.engine(
         }
       }
     }
->>>>>>> da84f94328b286460091d8ead750da13aa9f4e37
   })
 );
 app.set('view engine', 'handlebars');
@@ -102,13 +94,8 @@ if (process.env.NODE_ENV === 'test') {
 }
 
 // Starting the server, syncing our models ------------------------------------/
-<<<<<<< HEAD
 db.sequelize.sync(syncOptions).then(function() {
   app.listen(PORT, function() {
-=======
-db.sequelize.sync(syncOptions).then(function () {
-  app.listen(PORT, function () {
->>>>>>> da84f94328b286460091d8ead750da13aa9f4e37
     console.log(
       '==> 🌎  Listening on port %s. Visit http://localhost:%s/ in your browser.',
       PORT,
