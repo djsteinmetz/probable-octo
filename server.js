@@ -4,6 +4,7 @@ var bodyParser = require('body-parser');
 var exphbs = require('express-handlebars');
 var passport = require('passport');
 var session = require('express-session');
+var moment = require('moment');
 
 var db = require('./models');
 
@@ -72,6 +73,9 @@ app.engine(
         } else {
           return options.inverse(this);
         }
+      },
+      formatDate: function (date, format) {
+        return moment(date).format(format);
       }
     }
   })

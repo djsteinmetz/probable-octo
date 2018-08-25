@@ -24,8 +24,9 @@ module.exports = function (app) {
     db.Opportunity.findAll({
       include: [db.User]
     }).then(function (dbOpportunities) {
-      db.User.findAll({}).then(function (dbUsers) {
-        db.Opportunity.findAll({limit: 5}).then(function(dbRecentOp) {
+      db.User.findAll({ where: { permissions: 'admin' } }).then(function (dbUsers) {
+        db.Opportunity.findAll({ limit: 5 }).then(function (dbRecentOp) {
+          //console.log('!!!!!!!!!',dbRecentOp);
           var hbsObj = {
             opportunities: dbOpportunities,
             recentOpportunities: dbRecentOp,
@@ -34,7 +35,7 @@ module.exports = function (app) {
             homepage: true,
             isAdmin: getAdmin(req)
           };
-          console.log(hbsObj);
+          //console.log(hbsObj);
           res.render('index', hbsObj);
         });
       });
@@ -106,7 +107,7 @@ module.exports = function (app) {
           permissions: req.user.permissions,
           isAdmin: getAdmin(req)
         };
-        console.log(hbsObj);
+        //console.log(hbsObj);
         res.render('opportunity-details', hbsObj);
       });
     });
@@ -127,7 +128,7 @@ module.exports = function (app) {
           permissions: req.user.permissions,
           isAdmin: getAdmin(req)
         };
-        console.log(hbsObj);
+        //console.log(hbsObj);
         res.render('apply', hbsObj);
       });
     });

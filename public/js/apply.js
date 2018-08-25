@@ -6,6 +6,6 @@ $(document).ready(function () {
     $.ajax({
       method: 'PUT',
       url: `/api/collections/${collectionId}/apply/${opportunityId}`
-    }).then(() => location.assign(`/opportunities/${opportunityId}`));
+    }).then(() => location.assign('/'));
   });
 });
