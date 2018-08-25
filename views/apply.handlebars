@@ -7,6 +7,9 @@
             <h3 class="thin" style="font-size: 1.3rem; margin-bottom: 10px; font-style: italic">Posted by: {{opportunity.User.name}}</h3>
             <h3 class="bold" style="font-size: 1rem; margin-bottom: 10px">Application Deadline: {{formatDate opportunity.deadline 'LL'}}</h3>
             <hr />
+            {{#if isAdmin}}
+                <div class="text-muted opportunity-applicants" data-id="{{opportunity.id}}"> Applicants: </div>
+            {{/if}}
         </div>
         <div class="col-md-6">
             {{#compare @root.activeUser.id opportunity.UserId operator="!="}}
@@ -34,3 +37,4 @@
 </div>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="/js/apply.js"></script>
+<script src="/js/index.js"></script>

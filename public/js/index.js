@@ -6,8 +6,12 @@ $(document).ready(function () {
       method: 'GET',
       url: `/api/opportunities/${opId}/applicants`
     }).then(data => {
-      let applicantsString = data.filter(obj => obj !== null).map(obj => obj.name).join(', ');
-      div.append(applicantsString);
+      // let applicantsString = data.filter(obj => obj !== null).map(obj => obj.name).join(', ');
+      let links = [];
+      for(var i=0; i<data.length; i++) {
+        let $a = $(`<a href='/users/${data[i].id}'>${data[i].name}</a>`);
+        $(div).append($a);
+      }
     });
   }
 });

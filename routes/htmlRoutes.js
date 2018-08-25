@@ -38,7 +38,34 @@ module.exports = function (app) {
       });
     });
   });
-
+  // GET for admin view of user profile who've applied to specific opportunity
+  app.get('/users/:id/:opID', auth.isAdmin, function (req, res) {
+    console.log('here');
+    db.Opportunity.findAll({
+      where: { id: req.params.opID },
+      include: [{
+        model: db.Collection,
+        where: {
+          OpportunityId: req.params.opID
+        },
+        include: [{
+          model: db.User,
+          where: {
+            id: req.params.id
+          }
+        }, {model: db.Item}]
+      }]
+    }).then(data => {
+      var hbsObj = {
+        opportunity: data[0],
+        collection: data[0].Collections[0],
+        activeUser: req.user,
+        isAdmin: getAdmin(req)
+      };
+      console.log('````````````````````````', data[0].Collections[0].name);
+      res.render('applicant-profile', hbsObj);
+    });
+  });
   // Show the form to add opportunities.  Uncomment auth.isAdmin to require auth.
   app.get('/opportunities/new', auth.isAdmin, function (req, res) {
     var hbsObj = {
@@ -123,6 +150,10 @@ module.exports = function (app) {
 
   // Render 404 page for any unmatched routes
   app.get('*', function (req, res) {
-    res.render('404');
+    let activeUser = req.user;
+    var hbsObj = {
+      activeUser: activeUser
+    };
+    res.render('404', hbsObj);
   });
 };
