@@ -2,22 +2,51 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
+<<<<<<< HEAD
                 <h2 class="bold">{{name}}</h2>
+=======
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-11 text-left">
+                            <h2 class="bold">{{name}}</h2>
+                        </div>
+                        <div class="col-md-1 text-right">
+                            <h2>{{#if @root.isAdmin}}<i class="far fa-trash-alt" data-id="{{id}}" id="deleteOp"></i>{{/if}}</h2>
+                        </div>
+                    </div>
+                </div>
+>>>>>>> da84f94328b286460091d8ead750da13aa9f4e37
             </div>
             <div class="card-body">
                 <div class="container">
                     <div class="row">
+<<<<<<< HEAD
                         <div class="col-md-6">
                             {{description}}
                         </div>
                         <div class="col-md-6 text-right bold" style="font-size: 1rem">
                             <a class="btn btn-lg btn-light" href="/opportunities/{{id}}">Details ></a>
                         </div>
+=======
+                        <div class={{#unless @root.activeUser}}"col-md-12"{{/unless}}{{#if @root.activeUser}}"col-md-6"{{/if}}>
+                            {{description}}
+                        </div>
+                        {{#if @root.activeUser}}
+                        <div class="col-md-6 text-right bold" style="font-size: 1rem">
+                            <a class="btn btn-lg btn-light" href="/opportunities/{{@root.activeUser.id}}/apply/{{id}}">Details ></a>
+                        </div>
+                        {{/if}}
+>>>>>>> da84f94328b286460091d8ead750da13aa9f4e37
                     </div>
                 </div>
             </div>
             <div class="card-footer text-muted">
+<<<<<<< HEAD
                 Posted by: <span class="bold" style="font-size: 1rem">{{User.name}}</span>
+=======
+                {{#compare @root.activeUser.name User.name operator="!="}}Posted by: <span class="bold" style="font-size: 1rem">{{User.name}}</span>{{/compare}}
+                {{#compare @root.activeUser.name User.name}}Posted by: <span class="bold" style="font-size: 1rem">You</span>{{/compare}}
+>>>>>>> da84f94328b286460091d8ead750da13aa9f4e37
             </div>
         </div>
     </div>

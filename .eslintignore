@@ -1,2 +1,8 @@
 node_modules
+<<<<<<< HEAD
 models/index.js
+=======
+models/index.js
+# server.js
+# routes/htmlRoutes.js
+>>>>>>> da84f94328b286460091d8ead750da13aa9f4e37

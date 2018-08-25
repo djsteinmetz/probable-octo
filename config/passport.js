@@ -1,5 +1,7 @@
 const bCrypt = require('bcrypt-nodejs');
+
 var nodemailer = require('nodemailer');
+
 
 module.exports = function (passport, user) {
   const User = user;
@@ -35,6 +37,7 @@ module.exports = function (passport, user) {
         return bCrypt.hashSync(password, bCrypt.genSaltSync(8), null);
       };
 
+
       User.findOne({
         where: {
           email: email
@@ -45,6 +48,7 @@ module.exports = function (passport, user) {
             return done(null, false, {
               message: 'That username is already taken.'
             });
+
           } else {
             let userPassword = generateHash(password);
             let data = {
@@ -55,6 +59,7 @@ module.exports = function (passport, user) {
             };
 
             User.create(data).then((newUser /*, created */ ) => {
+
               if (!newUser) {
                 return done(null, false);
               }

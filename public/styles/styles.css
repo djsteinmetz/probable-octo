@@ -100,7 +100,13 @@ form {
 .btn-light {
   font-weight: 700!Important;
 }
+<<<<<<< HEAD
 
+=======
+#deleteOp:hover {
+  color: red;
+}
+>>>>>>> da84f94328b286460091d8ead750da13aa9f4e37
 /* Sign up // Register */
 
 .login-form {
@@ -142,4 +148,30 @@ form {
 }
 #logout:hover {
   color: red;
+<<<<<<< HEAD
+=======
+}
+
+/* Jumbotron */
+.jumbotron-fluid {
+  height: 175px;
+  vertical-align: middle;
+  line-height: 1;
+}
+#typewriterJumbotron{
+  font-size: 2rem;
+  font-weight: 100;
+  margin-left: 10px;
+  text-align: left;
+}
+@media only screen and (max-width: 992px) {
+  #divider {
+    display: none;
+  }
+}
+@media only screen and (max-width: 860px) {
+  #typewriterJumbotron {
+    display: none;
+  }
+>>>>>>> da84f94328b286460091d8ead750da13aa9f4e37
 }

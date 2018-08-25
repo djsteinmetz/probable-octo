@@ -14,15 +14,24 @@
       "no-unreachable": "error",
       "curly": "error",
       "dot-notation": "error",
+<<<<<<< HEAD
       "eqeqeq": "error",
       "no-empty-function": "error",
+=======
+      "eqeqeq": "warn",
+      "no-empty-function": "warn",
+>>>>>>> da84f94328b286460091d8ead750da13aa9f4e37
       "no-multi-spaces": "error",
       "no-mixed-spaces-and-tabs": "error",
       "no-trailing-spaces": "error",
       "default-case": "error",
       "no-fallthrough": "error",
       "no-unused-vars": "warn",
+<<<<<<< HEAD
       "no-use-before-define": "error",
+=======
+      "no-use-before-define": "warn",
+>>>>>>> da84f94328b286460091d8ead750da13aa9f4e37
       "no-redeclare": "error",
       "camelcase": "error",
       "brace-style": "error",

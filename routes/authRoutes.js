@@ -5,10 +5,13 @@ module.exports = function (app, passport) {
     successRedirect: '/',
     failureRedirect: '/register'
   }));
+<<<<<<< HEAD
   app.post('/changepass', passport.authenticate('local-changepass', {
     successRedirect: '/login',
     failureRedirect: '/changepass'
   }));
+=======
+>>>>>>> da84f94328b286460091d8ead750da13aa9f4e37
 
   app.post('/login', passport.authenticate('local-signin', {
     successRedirect: '/',
@@ -20,4 +23,8 @@ module.exports = function (app, passport) {
     res.redirect('/');
   });
 
+<<<<<<< HEAD
 };
+=======
+};
+>>>>>>> da84f94328b286460091d8ead750da13aa9f4e37
