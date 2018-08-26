@@ -26,6 +26,9 @@
   vertical-align: middle;
   margin: 0px;
 }
+.description {
+  font-family: 'Montserrat', sans-serif;
+}
 
 h2 {
   font-size: 3rem;
@@ -100,7 +103,10 @@ form {
 .btn-light {
   font-weight: 700!Important;
 }
-#deleteOp:hover {
+#deleteReq:hover {
+  color:red;
+}
+#deleteOp {
   color: red;
 }
 /* Sign up // Register */

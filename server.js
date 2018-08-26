@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 app.use(express.static('public'));
 
 // For Passport
-app.use(session({ secret: 'magical secret pony or something',resave: true, saveUninitialized:true})); // session secret
+app.use(session({ secret: 'magical secret pony or something', resave: true, saveUninitialized: true })); // session secret
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 
@@ -27,7 +27,7 @@ app.engine(
   exphbs({
     defaultLayout: 'main',
     helpers: {
-      compare: function(lvalue, rvalue, options) {
+      compare: function (lvalue, rvalue, options) {
 
         if (arguments.length < 3) {
           throw new Error('Handlerbars Helper \'compare\' needs 2 parameters');
@@ -36,39 +36,39 @@ app.engine(
         var operator = options.hash.operator || '==';
 
         var operators = {
-          '==':       function(l,r) {
+          '==': function (l, r) {
             return l == r;
           },
-          '===':      function(l,r) {
+          '===': function (l, r) {
             return l === r;
           },
-          '!=':       function(l,r) {
+          '!=': function (l, r) {
             return l != r;
           },
-          '<':        function(l,r) {
+          '<': function (l, r) {
             return l < r;
           },
-          '>':        function(l,r) {
+          '>': function (l, r) {
             return l > r;
           },
-          '<=':       function(l,r) {
+          '<=': function (l, r) {
             return l <= r;
           },
-          '>=':       function(l,r) {
+          '>=': function (l, r) {
             return l >= r;
           },
-          'typeof':   function(l,r) {
+          'typeof': function (l, r) {
             return typeof l === r;
           }
         };
 
         if (!operators[operator]) {
-          throw new Error('Handlerbars Helper \'compare\' doesn\'t know the operator '+operator);
+          throw new Error('Handlerbars Helper \'compare\' doesn\'t know the operator ' + operator);
         }
 
-        var result = operators[operator](lvalue,rvalue);
+        var result = operators[operator](lvalue, rvalue);
 
-        if( result ) {
+        if (result) {
           return options.fn(this);
         } else {
           return options.inverse(this);
@@ -98,8 +98,8 @@ if (process.env.NODE_ENV === 'test') {
 }
 
 // Starting the server, syncing our models ------------------------------------/
-db.sequelize.sync(syncOptions).then(function() {
-  app.listen(PORT, function() {
+db.sequelize.sync(syncOptions).then(function () {
+  app.listen(PORT, function () {
     console.log(
       '==> 🌎  Listening on port %s. Visit http://localhost:%s/ in your browser.',
       PORT,

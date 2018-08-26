@@ -1,0 +1,22 @@
+<div class="container main">
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="headers">{{opportunity.name}}</h2>
+            <hr />
+            <h2 class="bold">{{collection.name}}</h2>
+            <h2 class="thin" style="font-size: 1.4rem">Artist: {{collection.User.name}}</h2>
+            <p class="description">{{collection.description}}</p>
+            <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card-columns">
+                {{> applicant/applicant-block}}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="/js/index.js"></script> 
