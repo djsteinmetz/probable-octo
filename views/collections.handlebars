@@ -23,10 +23,10 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            <form>
+            <form id="submit-collection-form">
                 <div class="form-group">
                     <label for="collectionName">Collection Name</label>
-                    <input type="input" class="form-control" id="collectionName" placeholder="Enter the name of your collection">
+                    <input type="input" class="form-control" id="collectionName" placeholder="Enter the name of your collection" required>
                 </div>
                 <div class="form-group">
                     <label for="collectionDescription">Description</label>
@@ -45,10 +45,10 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            <form>
+            <form id="submit-item-form">
                 <div class="form-group">
                     <label for="itemName">Item Name</label>
-                    <input name="name" type="text" class="form-control" id="itemName" placeholder="Enter the title for this piece">
+                    <input name="name" type="text" class="form-control" id="itemName" placeholder="Enter the title for this piece" required>
                 </div>
                 <div class="form-group">
                     <label for="itemDescription">Description</label>
@@ -56,11 +56,11 @@
                 </div>
                 <div class="form-group">
                     <label for="imageUrl">Image URL</label>
-                    <input name="imageUrl" type="url" class="form-control" id="imageUrl" placeholder="Please submit a link to an image of this item">
+                    <input name="imageUrl" type="url" class="form-control" id="imageUrl" placeholder="Please submit a link to an image of this item" required>
                 </div>
                 <div class="form-group">
                     <label for="category">Which Collection does this Item belong to?</label>
-                    <select class="form-control" id="collection-select">
+                    <select class="form-control" id="collection-select" required>
                         <option>Please select a collection</option>
                         {{#each collections}}
                         <option value="{{id}}">{{name}}</option>

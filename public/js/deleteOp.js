@@ -1,4 +1,5 @@
 $(document).ready(function () {
+
   let returnOrig = function() {
     ($('.deleteOp').removeClass('deleteOp').addClass('deleteReq')).delay(2000);
   };
@@ -19,4 +20,5 @@ $(document).ready(function () {
       }
     );
   });
+
 });

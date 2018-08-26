@@ -40,11 +40,14 @@
           <a class="nav-link" href="/login">Login</a>
         </li>
         {{/unless}} {{#if activeUser}}
-        <li class="nav-item active" id="divider">
-          <p class="nav-link"><a href="/account">Account</a> |</p>
+        <li class="nav-item">
+          <a class="nav-link" href="/account">Account</a>
         </li>
-        <li class="nav-item active">
-          <span><p class="nav-link active" id="greeting">Hello, {{activeUser.name}}<a href="/logout"><i class="fas fa-sign-out-alt"
+        <li class="nav-item" id="divider">
+          <p class="nav-link"> |</p>
+        </li>
+        <li class="nav-item">
+          <span><p class="nav-link active" id="greeting">Hello, {{activeUser.name}}<a class="text-muted" href="/logout"><i class="fas fa-sign-out-alt"
                   id="logout"></i></a></p></span>
         </li>
         {{/if}}
