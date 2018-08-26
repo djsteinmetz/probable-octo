@@ -38,7 +38,6 @@ module.exports = function (app) {
   });
   // GET for admin view of user profile who've applied to specific opportunity
   app.get('/opportunities/:opId/applicants/:userId', auth.isAdmin, function (req, res) {
-    console.log('here');
     db.Opportunity.findAll({
       where: { id: req.params.opId },
       include: [{
@@ -61,7 +60,6 @@ module.exports = function (app) {
         activeUser: req.user,
         isAdmin: getAdmin(req)
       };
-      console.log('===================',data[0].Collections[0].Items);
       res.render('applicant-profile', hbsObj);
     });
   });
@@ -109,7 +107,6 @@ module.exports = function (app) {
   });
   // details route to get the 'selected' opportunity and display more details
   app.get('/opportunities/:id', function (req, res) {
-    console.log(req.user.id)
     db.Opportunity.findOne({
       where: {
         id: req.params.id
@@ -136,7 +133,6 @@ module.exports = function (app) {
       include: [db.User]
     }).then(function (dbApply) {
       db.Collection.findAll({ where: { UserId: req.params.id } }).then(function (dbCollections) {
-        console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',req.user);
         var hbsObj = {
           opportunity: dbApply,
           collections: dbCollections,
