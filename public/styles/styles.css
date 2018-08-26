@@ -102,10 +102,10 @@ form {
 .btn-light {
   font-weight: 700!Important;
 }
-#deleteReq:hover {
+.deleteReq:hover {
   color:red;
 }
-#deleteOp {
+.deleteOp {
   color: red;
 }
 /* Sign up // Register */

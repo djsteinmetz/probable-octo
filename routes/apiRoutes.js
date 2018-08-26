@@ -69,7 +69,7 @@ module.exports = function (app) {
     }).then(dbCollection => {
       let userNames = dbCollection.map(function (collection) {
         if (collection.User) {
-          return {id: collection.User.id, name: collection.User.name};
+          return { id: collection.User.id, name: collection.User.name };
         } else {
           return null;
         }

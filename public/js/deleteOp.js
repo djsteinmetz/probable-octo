@@ -1,12 +1,15 @@
 $(document).ready(function () {
   let returnOrig = function() {
-    ($('#deleteOp').attr('id', 'deleteReq')).delay(2000);
+    ($('.deleteOp').removeClass('deleteOp').addClass('deleteReq')).delay(2000);
   };
-  $('#deleteReq').on('click', function() {
-    $('#deleteReq').attr('id', 'deleteOp');
+
+  $(document).on('click', '.deleteReq', function(ev) {
+    ev.stopPropagation();
+    $(this).removeClass('deleteReq').addClass('deleteOp');
     setTimeout(returnOrig, 3000);
   });
-  $('#deleteOp').on('click', function () {
+
+  $(document).on('click', '.deleteOp', function () {
     var id = $(this).attr('data-id');
     $.ajax('/api/opportunities/' + id, {
       type: 'DELETE'
