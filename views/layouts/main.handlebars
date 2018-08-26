@@ -29,8 +29,8 @@
         </li>
         {{/if}}
         <li class="nav-item ">
-          {{#if isAdmin}}<a class="nav-link" href="/collections">Collections <span class="sr-only">(current)</span></a>{{/if}}
-          {{#unless isAdmin}}<a class="nav-link" href="/users/{{activeUser.id}}/collections">Collections <span class="sr-only">(current)</span></a>{{/unless}}
+          {{#if isAdmin}}<a class="nav-link" href="/collections">All Collections <span class="sr-only">(current)</span></a>{{/if}}
+          {{#unless isAdmin}}<a class="nav-link" href="/users/{{activeUser.id}}/collections">My Collections <span class="sr-only">(current)</span></a>{{/unless}}
         </li>{{/if}}
         {{#unless activeUser}}
         <li class="nav-item active">

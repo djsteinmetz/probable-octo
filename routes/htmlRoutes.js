@@ -21,18 +21,16 @@ module.exports = function (app) {
     db.Opportunity.findAll({
       include: [db.User]
     }).then(function (dbOpportunities) {
-      db.User.findAll({ where: { permissions: 'admin' } }).then(function (dbUsers) {
+      db.User.findAll({ where: { permissions: 'admin' } }).then(function (dbAdmin) {
         db.Opportunity.findAll({ limit: 5 }).then(function (dbRecentOp) {
-          //console.log('!!!!!!!!!',dbRecentOp);
           var hbsObj = {
             opportunities: dbOpportunities,
             recentOpportunities: dbRecentOp,
-            users: dbUsers,
+            users: dbAdmin,
             activeUser: req.user,
             homepage: true,
             isAdmin: getAdmin(req)
           };
-          //console.log(hbsObj);
           res.render('index', hbsObj);
         });
       });
@@ -56,15 +54,15 @@ module.exports = function (app) {
         }, {model: db.Item}]
       }]
     }).then(data => {
-      res.json(data);
-      // var hbsObj = {
-      //   opportunity: data[0],
-      //   collection: data[0].Collections[0],
-      //   activeUser: req.user,
-      //   isAdmin: getAdmin(req)
-      // };
-      // console.log('````````````````````````', data[0].Collections[0].name);
-      // res.render('applicant-profile', hbsObj);
+      var hbsObj = {
+        opportunity: data[0],
+        collection: data[0].Collections[0],
+        items: data[0].Collections[0].Items,
+        activeUser: req.user,
+        isAdmin: getAdmin(req)
+      };
+      console.log('===================',data[0].Collections[0].Items);
+      res.render('applicant-profile', hbsObj);
     });
   });
 
@@ -111,21 +109,21 @@ module.exports = function (app) {
   });
   // details route to get the 'selected' opportunity and display more details
   app.get('/opportunities/:id', function (req, res) {
+    console.log(req.user.id)
     db.Opportunity.findOne({
       where: {
         id: req.params.id
       },
       include: [db.User]
     }).then(function (dbApply) {
-      db.Collection.findAll({}).then(function (dbCollections) {
+      db.Collection.findAll({where: {UserId: req.user.id}}).then(function (dbCollections) {
         var hbsObj = {
           opportunity: dbApply,
           collections: dbCollections,
           activeUser: req.user,
           isAdmin: getAdmin(req)
         };
-        //console.log(hbsObj);
-        res.render('opportunity-details', hbsObj);
+        res.render('apply', hbsObj);
       });
     });
   });
@@ -138,13 +136,13 @@ module.exports = function (app) {
       include: [db.User]
     }).then(function (dbApply) {
       db.Collection.findAll({ where: { UserId: req.params.id } }).then(function (dbCollections) {
+        console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',req.user);
         var hbsObj = {
           opportunity: dbApply,
           collections: dbCollections,
           activeUser: req.user,
           isAdmin: getAdmin(req)
         };
-        //console.log(hbsObj);
         res.render('apply', hbsObj);
       });
     });

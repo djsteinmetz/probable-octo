@@ -6,12 +6,12 @@ $(document).ready(function () {
       method: 'GET',
       url: `/api/opportunities/${opId}/applicants`
     }).then(data => {
-      // let applicantsString = data.filter(obj => obj !== null).map(obj => obj.name).join(', ');
-      let links = [];
+      let applicants = [];
       for(var i=0; i<data.length; i++) {
-        let $a = $(`<a href='/opportunities/${opId}/applicants/${data[i].id}'>${data[i].name}</a>`);
-        $(div).append($a);
+        applicants.push(`<a href='/opportunities/${opId}/applicants/${data[i].id}'>${data[i].name} </a>`);
       }
+      let $a = applicants.join(',');
+      $(div).append($a);
     });
   }
 });
