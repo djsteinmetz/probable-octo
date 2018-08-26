@@ -16,6 +16,9 @@ module.exports = function (app) {
   app.get('/register', function (req, res) {
     res.render('register');
   });
+  app.get('/changepass', auth.isLoggedIn, function (req, res) {
+    res.render('changepass');
+  });
   // Load index page
   app.get('/', function (req, res) {
     db.Opportunity.findAll({
@@ -50,7 +53,7 @@ module.exports = function (app) {
           where: {
             id: req.params.userId
           }
-        }, {model: db.Item}]
+        }, { model: db.Item }]
       }]
     }).then(data => {
       var hbsObj = {
@@ -73,7 +76,6 @@ module.exports = function (app) {
     res.render('add-opportunity', hbsObj);
   });
 
-  // Load example page and pass in an example by id
   app.get('/users/:id/collections', function (req, res) {
     if (req.user.id == req.params.id) {
       db.Collection.findAll({
@@ -100,6 +102,7 @@ module.exports = function (app) {
       var hbsObj = {
         collections: dbCollections,
         activeUser: req.user,
+        permissions: req.user.permissions,
         isAdmin: getAdmin(req)
       };
       res.render('collections', hbsObj);
@@ -113,11 +116,12 @@ module.exports = function (app) {
       },
       include: [db.User]
     }).then(function (dbApply) {
-      db.Collection.findAll({where: {UserId: req.user.id}}).then(function (dbCollections) {
+      db.Collection.findAll({ where: { UserId: req.user.id } }).then(function (dbCollections) {
         var hbsObj = {
           opportunity: dbApply,
           collections: dbCollections,
           activeUser: req.user,
+          permissions: req.user.permissions,
           isAdmin: getAdmin(req)
         };
         res.render('apply', hbsObj);
@@ -137,6 +141,7 @@ module.exports = function (app) {
           opportunity: dbApply,
           collections: dbCollections,
           activeUser: req.user,
+          permissions: req.user.permissions,
           isAdmin: getAdmin(req)
         };
         res.render('apply', hbsObj);
