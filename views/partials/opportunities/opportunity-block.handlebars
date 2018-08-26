@@ -9,7 +9,7 @@
                         </div>
                         {{#compare @root.activeUser.name User.name}}
                         <div class="col-md-1 text-right">
-                            <h2>{{#if @root.isAdmin}}<i class="far fa-trash-alt" data-id="{{id}}" id="deleteReq"></i>{{/if}}</h2>
+                            <h2>{{#if @root.isAdmin}}<i class="far fa-trash-alt deleteReq" data-id="{{id}}"></i>{{/if}}</h2>
                         </div>
                         {{/compare}}
                     </div>
