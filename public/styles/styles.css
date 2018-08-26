@@ -63,10 +63,9 @@ h2 {
   font-size: 1.5rem;
 }
 
-/* .upcoming,
-.recent-galleries {
-  border: 1px solid black;
-} */
+#btm25 {
+  margin-bottom: 25px;
+}
 
 .card {
   margin: 25px 0px 25px 0px;
@@ -115,15 +114,21 @@ form {
   width: 50%;
   margin: 50px auto;
 }
+.pwrd-change-form {
+  width: 100%;
+  margin: 0 auto;
+}
 
-.login-form form {
+.login-form form,
+.pwrd-change-form {
   margin-bottom: 15px;
   background: #f2f2f2;
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
   padding: 30px;
 }
 
-.login-form h2 {
+.login-form h2,
+.pwrd-change-form h2 {
   margin: 0 0 15px;
 }
 
@@ -180,5 +185,10 @@ form {
 @media only screen and (max-width: 860px) {
   #typewriterJumbotron {
     display: none;
+  }
+}
+@media only screen and (max-width: 760px) {
+  .login-form {
+    width: 100%;
   }
 }

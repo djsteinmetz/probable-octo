@@ -1,7 +1,15 @@
-<div class="container">
+<div class="container main">
     <div class="row">
-        <div class="col-md-12">
-            <div class="card login-form">
+        <div class="col-lg-6">
+           <h2 class="headers">Account Settings</h2>
+           <hr />
+           <h2 class="bold">{{activeUser.name}}</h2>
+           <h2 class="bold" id="btm25" style="font-size: 1.5rem">{{#compare activeUser.permissions "admin"}}Administrator{{/compare}}{{#compare activeUser.permissions "admin" operator="!="}}User{{/compare}}</h2>
+           <h2 class="thin">{{activeUser.email}}</h2>
+           <h2 class="thin" id="btm25" style="font-size: 1.5rem">Bio: {{activeUser.bio}}</h2>
+        </div>
+        <div class="col-lg-6">
+            <div class="card pwrd-change-form">
                 <div class="card-body">
                     <form action="/changepass" method="post">
                     <h2 class="text-center headers">Change Password</h2>
@@ -17,14 +25,7 @@
                     <div class="form-group">
                         <button type="submit" class="btn btn-light btn-block bold">Submit</button>
                     </div>
-                    {{!-- <div class="clearfix">
-                        <label class="pull-left checkbox-inline"><input type="checkbox"> Remember me</label>
-                        <a href="#" class="pull-right">Forgot Password?</a>
-                    </div> --}}
                     </form>
-                </div>
-                <div class="card-footer">
-                    <p class="text-center bold" style="font-size: 1.05rem"><a href="/register">Not a member? Create an Account</a></p>
                 </div>
             </div>
         </div>
