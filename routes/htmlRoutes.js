@@ -16,8 +16,11 @@ module.exports = function (app) {
   app.get('/register', function (req, res) {
     res.render('register');
   });
-  app.get('/changepass', auth.isLoggedIn, function (req, res) {
-    res.render('changepass');
+  app.get('/account', auth.isLoggedIn, function (req, res) {
+    var hbsObj = {
+      activeUser: req.user
+    };
+    res.render('account', hbsObj);
   });
   // Load index page
   app.get('/', function (req, res) {
@@ -92,7 +95,7 @@ module.exports = function (app) {
         res.render('collections', hbsObj);
       });
     } else {
-      res.status(403).send('You do not have permission to get this resource');
+      res.render('403');
     }
   });
   app.get('/collections', auth.isAdmin, function (req, res) {
@@ -106,26 +109,6 @@ module.exports = function (app) {
         isAdmin: getAdmin(req)
       };
       res.render('collections', hbsObj);
-    });
-  });
-  // details route to get the 'selected' opportunity and display more details
-  app.get('/opportunities/:id', function (req, res) {
-    db.Opportunity.findOne({
-      where: {
-        id: req.params.id
-      },
-      include: [db.User]
-    }).then(function (dbApply) {
-      db.Collection.findAll({ where: { UserId: req.user.id } }).then(function (dbCollections) {
-        var hbsObj = {
-          opportunity: dbApply,
-          collections: dbCollections,
-          activeUser: req.user,
-          permissions: req.user.permissions,
-          isAdmin: getAdmin(req)
-        };
-        res.render('apply', hbsObj);
-      });
     });
   });
   // apply route to get the 'selected' opportunity and 'your' collections
@@ -148,7 +131,6 @@ module.exports = function (app) {
       });
     });
   });
-
   // Render 404 page for any unmatched routes
   app.get('*', function (req, res) {
     let activeUser = req.user;
