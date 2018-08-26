@@ -13,50 +13,45 @@ module.exports = function (app) {
   app.get('/login', function (req, res) {
     res.render('login');
   });
+
   app.get('/register', function (req, res) {
     res.render('register');
   });
+
   app.get('/account', auth.isLoggedIn, function (req, res) {
     var hbsObj = {
       activeUser: req.user
     };
     res.render('account', hbsObj);
   });
+
   // Load index page
   app.get('/', function (req, res) {
-    db.Opportunity.findAll({
-      include: [db.User]
-    }).then(function (dbOpportunities) {
-      db.User.findAll({ where: { permissions: 'admin' } }).then(function (dbAdmin) {
-        db.Opportunity.findAll({ limit: 5 }).then(function (dbRecentOp) {
-          var hbsObj = {
-            opportunities: dbOpportunities,
-            recentOpportunities: dbRecentOp,
-            users: dbAdmin,
-            activeUser: req.user,
-            homepage: true,
-            isAdmin: getAdmin(req)
-          };
-          res.render('index', hbsObj);
-        });
-      });
+    let opportunities = db.Opportunity.findAll({ include: [db.User] });
+    let adminUsers = db.User.findAll({ where: { permissions: 'admin' } });
+
+    Promise.all([opportunities, adminUsers]).then(data => {
+      // res.json(data);
+      const hbsObj = {
+        opportunities: data[0],
+        recentOpportunities: data[0].slice(0, 5),
+        users: data[1],
+        activeUser: req.user,
+        homepage: true,
+        isAdmin: getAdmin(req)
+      };
+
+      res.render('index', hbsObj);
     });
   });
+
   // GET for admin view of user profile who've applied to specific opportunity
   app.get('/opportunities/:opId/applicants/:userId', auth.isAdmin, function (req, res) {
     db.Opportunity.findAll({
       where: { id: req.params.opId },
       include: [{
         model: db.Collection,
-        where: {
-          OpportunityId: req.params.opId
-        },
-        include: [{
-          model: db.User,
-          where: {
-            id: req.params.userId
-          }
-        }, { model: db.Item }]
+        include: [db.User, db.Item],
       }]
     }).then(data => {
       var hbsObj = {
@@ -70,7 +65,7 @@ module.exports = function (app) {
     });
   });
 
-  // Show the form to add opportunities.  Uncomment auth.isAdmin to require auth.
+  // Show the form to add opportunities.
   app.get('/opportunities/new', auth.isAdmin, function (req, res) {
     var hbsObj = {
       activeUser: req.user,
@@ -82,9 +77,7 @@ module.exports = function (app) {
   app.get('/users/:id/collections', function (req, res) {
     if (req.user.id == req.params.id) {
       db.Collection.findAll({
-        where: {
-          UserId: req.params.id
-        },
+        where: { UserId: req.params.id },
         include: [db.Item]
       }).then(function (dbCollections) {
         var hbsObj = {
@@ -98,6 +91,7 @@ module.exports = function (app) {
       res.render('403');
     }
   });
+
   app.get('/collections', auth.isAdmin, function (req, res) {
     db.Collection.findAll({
       include: [db.Item]
@@ -111,26 +105,27 @@ module.exports = function (app) {
       res.render('collections', hbsObj);
     });
   });
+
   // apply route to get the 'selected' opportunity and 'your' collections
-  app.get('/opportunities/:id/apply/:opID', function (req, res) {
-    db.Opportunity.findOne({
-      where: {
-        id: req.params.opID
-      },
-      include: [db.User]
-    }).then(function (dbApply) {
-      db.Collection.findAll({ where: { UserId: req.params.id } }).then(function (dbCollections) {
-        var hbsObj = {
-          opportunity: dbApply,
-          collections: dbCollections,
-          activeUser: req.user,
-          permissions: req.user.permissions,
-          isAdmin: getAdmin(req)
-        };
-        res.render('apply', hbsObj);
-      });
+  app.get('/opportunities/:id/apply/:opID', auth.isLoggedIn, function (req, res) {
+    let op = db.Opportunity.findOne({ where: { id: req.params.opID }, include: [db.User] });
+
+    // uncomment `OpportunityId: null` to find only the collections that have not already been used to apply
+    let collections = db.Collection.findAll({ where: { UserId: req.params.id, /* OpportunityId: null */} });
+
+    Promise.all([op, collections]).then(data => {
+      let hbsObj = {
+        opportunity: data[0],
+        collections: data[1],
+        activeUser: req.user,
+        permissions: req.user.permissions,
+        isAdmin: getAdmin(req)
+      };
+      res.render('apply', hbsObj);
+
     });
   });
+
   // Render 404 page for any unmatched routes
   app.get('*', function (req, res) {
     let activeUser = req.user;
