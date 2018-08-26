@@ -8,9 +8,9 @@ $(document).ready(function () {
     }).then(data => {
       let applicants = [];
       for(var i=0; i<data.length; i++) {
-        applicants.push(`<a href='/opportunities/${opId}/applicants/${data[i].id}'>${data[i].name} </a>`);
+        applicants.push(`<a href='/opportunities/${opId}/applicants/${data[i].id}'>${data[i].name}</a>`);
       }
-      let $a = applicants.join(',');
+      let $a = applicants.join(', ');
       $(div).append($a);
     });
   }

@@ -11,17 +11,23 @@ function getAdmin(req) {
 
 module.exports = function (app) {
   app.get('/login', function (req, res) {
-    res.render('login');
+    if (req.user) {
+      res.redirect('/');
+    } else {
+      res.render('login');
+    }
   });
 
   app.get('/register', function (req, res) {
-    res.render('register');
+    if (req.user) {
+      res.redirect('/');
+    } else {
+      res.render('register');
+    }
   });
 
   app.get('/account', auth.isLoggedIn, function (req, res) {
-    var hbsObj = {
-      activeUser: req.user
-    };
+    var hbsObj = { activeUser: req.user };
     res.render('account', hbsObj);
   });
 
@@ -31,7 +37,6 @@ module.exports = function (app) {
     let adminUsers = db.User.findAll({ where: { permissions: 'admin' } });
 
     Promise.all([opportunities, adminUsers]).then(data => {
-      // res.json(data);
       const hbsObj = {
         opportunities: data[0],
         recentOpportunities: data[0].slice(0, 5),
@@ -88,7 +93,7 @@ module.exports = function (app) {
         res.render('collections', hbsObj);
       });
     } else {
-      res.render('403');
+      res.render('403', { activeUser: req.user, isAdmin: getAdmin(req) });
     }
   });
 
@@ -111,7 +116,7 @@ module.exports = function (app) {
     let op = db.Opportunity.findOne({ where: { id: req.params.opID }, include: [db.User] });
 
     // uncomment `OpportunityId: null` to find only the collections that have not already been used to apply
-    let collections = db.Collection.findAll({ where: { UserId: req.params.id, /* OpportunityId: null */} });
+    let collections = db.Collection.findAll({ where: { UserId: req.params.id, /* OpportunityId: null */ } });
 
     Promise.all([op, collections]).then(data => {
       let hbsObj = {

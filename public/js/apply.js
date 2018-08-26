@@ -8,4 +8,5 @@ $(document).ready(function () {
       url: `/api/collections/${collectionId}/apply/${opportunityId}`
     }).then(() => location.assign('/'));
   });
+
 });

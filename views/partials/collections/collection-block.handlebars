@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-md-12">
-        <h2 class="bold">{{name}}</h2>
+        <h2 class="bold">{{name}} {{#unless name}} Untitled {{/unless}}</h2>
     </div>
 </div>
 <div class="row">
@@ -8,9 +8,11 @@
         <div class="card-columns">
             {{#each Items}}
             <div class="card" style="width: 18rem;">
-                <img class="card-img-top" src="{{imageUrl}}" alt="Card image cap">
+                <a href="{{imageUrl}}">
+                    <img class="card-img-top" src="{{imageUrl}}" alt="Card image cap" style="max-height: 300px; object-fit:cover">
+                </a>
                 <div class="card-body">
-                    <h5 class="card-title">{{name}}</h5>
+                    <h5 class="card-title">{{name}} {{#unless name}} Untitled {{/unless}}</h5>
                     <p class="card-text">{{description}}</p>
                 </div>
             </div>
