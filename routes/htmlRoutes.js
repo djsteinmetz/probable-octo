@@ -16,26 +16,54 @@ module.exports = function (app) {
   app.get('/register', function (req, res) {
     res.render('register');
   });
+  app.get('/changepass', auth.isLoggedIn, function (req, res) {
+    res.render('changepass');
+  });
   // Load index page
   app.get('/', function (req, res) {
     db.Opportunity.findAll({
       include: [db.User]
     }).then(function (dbOpportunities) {
-      db.User.findAll({ where: { permissions: 'admin' } }).then(function (dbUsers) {
+      db.User.findAll({ where: { permissions: 'admin' } }).then(function (dbAdmin) {
         db.Opportunity.findAll({ limit: 5 }).then(function (dbRecentOp) {
-          //console.log('!!!!!!!!!',dbRecentOp);
           var hbsObj = {
             opportunities: dbOpportunities,
             recentOpportunities: dbRecentOp,
-            users: dbUsers,
+            users: dbAdmin,
             activeUser: req.user,
             homepage: true,
             isAdmin: getAdmin(req)
           };
-          //console.log(hbsObj);
           res.render('index', hbsObj);
         });
       });
+    });
+  });
+  // GET for admin view of user profile who've applied to specific opportunity
+  app.get('/opportunities/:opId/applicants/:userId', auth.isAdmin, function (req, res) {
+    db.Opportunity.findAll({
+      where: { id: req.params.opId },
+      include: [{
+        model: db.Collection,
+        where: {
+          OpportunityId: req.params.opId
+        },
+        include: [{
+          model: db.User,
+          where: {
+            id: req.params.userId
+          }
+        }, { model: db.Item }]
+      }]
+    }).then(data => {
+      var hbsObj = {
+        opportunity: data[0],
+        collection: data[0].Collections[0],
+        items: data[0].Collections[0].Items,
+        activeUser: req.user,
+        isAdmin: getAdmin(req)
+      };
+      res.render('applicant-profile', hbsObj);
     });
   });
 
@@ -48,7 +76,6 @@ module.exports = function (app) {
     res.render('add-opportunity', hbsObj);
   });
 
-  // Load example page and pass in an example by id
   app.get('/users/:id/collections', function (req, res) {
     if (req.user.id == req.params.id) {
       db.Collection.findAll({
@@ -75,6 +102,7 @@ module.exports = function (app) {
       var hbsObj = {
         collections: dbCollections,
         activeUser: req.user,
+        permissions: req.user.permissions,
         isAdmin: getAdmin(req)
       };
       res.render('collections', hbsObj);
@@ -88,15 +116,15 @@ module.exports = function (app) {
       },
       include: [db.User]
     }).then(function (dbApply) {
-      db.Collection.findAll({}).then(function (dbCollections) {
+      db.Collection.findAll({ where: { UserId: req.user.id } }).then(function (dbCollections) {
         var hbsObj = {
           opportunity: dbApply,
           collections: dbCollections,
           activeUser: req.user,
+          permissions: req.user.permissions,
           isAdmin: getAdmin(req)
         };
-        //console.log(hbsObj);
-        res.render('opportunity-details', hbsObj);
+        res.render('apply', hbsObj);
       });
     });
   });
@@ -113,9 +141,9 @@ module.exports = function (app) {
           opportunity: dbApply,
           collections: dbCollections,
           activeUser: req.user,
+          permissions: req.user.permissions,
           isAdmin: getAdmin(req)
         };
-        //console.log(hbsObj);
         res.render('apply', hbsObj);
       });
     });
@@ -123,6 +151,10 @@ module.exports = function (app) {
 
   // Render 404 page for any unmatched routes
   app.get('*', function (req, res) {
-    res.render('404');
+    let activeUser = req.user;
+    var hbsObj = {
+      activeUser: activeUser
+    };
+    res.render('404', hbsObj);
   });
 };

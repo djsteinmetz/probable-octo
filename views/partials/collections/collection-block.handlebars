@@ -1,26 +1,20 @@
 <div class="row">
     <div class="col-md-12">
-        <div class="card">
-            <div class="card-header">
-                <h2 class="bold">{{name}}</h2>
-            </div>
-            <div class="card-body">
-                <div class="card-text">
-                    {{description}}
+        <h2 class="bold">{{name}}</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card-columns">
+            {{#each Items}}
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="{{imageUrl}}" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">{{name}}</h5>
+                    <p class="card-text">{{description}}</p>
                 </div>
-                {{#if Items}}
-                    <p class="thin">Items in this collection</p>
-                {{/if}}
-                {{#unless Items}}
-                    <p class="thin">You haven't added any items to this collection</p>
-                {{/unless}}
-                <ol>
-                    {{#each Items}}
-                    <li>{{name}} | <a href="{{imageUrl}}" target="_blank">View the image</a></li>
-                    <p>Description: {{description}}</p>
-                    {{/each}}
-                </ol>
             </div>
+            {{/each}}
         </div>
     </div>
 </div>

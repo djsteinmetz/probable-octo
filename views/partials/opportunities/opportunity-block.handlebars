@@ -7,26 +7,27 @@
                         <div class="col-md-11 text-left">
                             <h2 class="bold">{{name}}</h2>
                         </div>
+                        {{#compare @root.activeUser.name User.name}}
                         <div class="col-md-1 text-right">
-                            <h2>{{#if @root.isAdmin}}<i class="far fa-trash-alt" data-id="{{id}}" id="deleteOp"></i>{{/if}}</h2>
+                            <h2>{{#if @root.isAdmin}}<i class="far fa-trash-alt" data-id="{{id}}" id="deleteReq"></i>{{/if}}</h2>
                         </div>
+                        {{/compare}}
                     </div>
                 </div>
             </div>
             <div class="card-body">
                 <div class="container">
                     <div class="row">
-                        <div class={{#unless @root.activeUser}}"col-md-12"{{/unless}}{{#if @root.activeUser}}"col-md-6"{{/if}}>
+                        <div class={{#unless @root.activeUser}}"col-md-12"{{/unless}}{{#if @root.activeUser}}"col-md-9"{{/if}}>
                             {{description}}
                         </div>
                         {{#if @root.activeUser}}
-                        <div class="col-md-6 text-right bold" style="font-size: 1rem">
+                        <div class="col-md-3 text-right bold" style="font-size: 1rem">
                             <a class="btn btn-lg btn-light" href="/opportunities/{{@root.activeUser.id}}/apply/{{id}}">Details ></a>
                         </div>
                         {{/if}}
                     </div>
                 </div>
-                <div class="text-muted opportunity-applicants" data-id="{{id}}"></div>
             </div>
             <div class="card-footer text-muted">
                 {{#compare @root.activeUser.name User.name operator="!="}}Posted by: <span class="bold" style="font-size: 1rem">{{User.name}}</span>{{/compare}}

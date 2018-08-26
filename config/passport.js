@@ -1,5 +1,8 @@
 const bCrypt = require('bcrypt-nodejs');
 
+var nodemailer = require('nodemailer');
+
+
 module.exports = function (passport, user) {
   const User = user;
   const LocalStrategy = require('passport-local').Strategy;
@@ -34,10 +37,18 @@ module.exports = function (passport, user) {
         return bCrypt.hashSync(password, bCrypt.genSaltSync(8), null);
       };
 
-      User.findOne({ where: { email: email } })
+
+      User.findOne({
+        where: {
+          email: email
+        }
+      })
         .then(dbUser => {
           if (dbUser) {
-            return done(null, false, { message: 'That username is already taken.' });
+            return done(null, false, {
+              message: 'That username is already taken.'
+            });
+
           } else {
             let userPassword = generateHash(password);
             let data = {
@@ -47,7 +58,8 @@ module.exports = function (passport, user) {
               bio: req.body.bio
             };
 
-            User.create(data).then((newUser /*, created */) => {
+            User.create(data).then((newUser /*, created */ ) => {
+
               if (!newUser) {
                 return done(null, false);
               }
@@ -62,35 +74,118 @@ module.exports = function (passport, user) {
 
   ));
 
-  passport.use('local-signin', new LocalStrategy(
+  passport.use('local-signin', new LocalStrategy({
+    usernameField: 'email',
+    passwordField: 'password',
+    passReqToCallback: true
+  },
+
+  function (req, email, password, done) {
+    const User = user;
+    const isValidPassword = function (userpass, password) {
+      return bCrypt.compareSync(password, userpass);
+    };
+
+    User.findOne({
+      where: {
+        email: email
+      }
+    })
+      .then(dbUser => {
+        if (!dbUser) {
+          return done(null, false, {
+            message: 'Email does not exist.'
+          });
+        }
+
+        if (!isValidPassword(dbUser.password, password)) {
+          return done(null, false, {
+            message: 'Incorrect password.'
+          });
+        }
+
+        const userinfo = dbUser.get();
+        return done(null, userinfo);
+      }).catch(err => {
+        console.log('Error: ', err);
+        return done(null, false, {
+          message: 'Something went wrong with signin.'
+        });
+      });
+  }
+  ));
+
+  passport.use('local-changepass', new LocalStrategy(
+
     {
       usernameField: 'email',
-      passwordField: 'password',
-      passReqToCallback: true
+      passwordField: 'change-password',
+      passReqToCallback: true // allows us to pass back the entire request to the callback
+
     },
 
     function (req, email, password, done) {
-      const User = user;
-      const isValidPassword = function (userpass, password) {
-        return bCrypt.compareSync(password, userpass);
+
+      var generateHash = function (password) {
+
+        return bCrypt.hashSync(password, bCrypt.genSaltSync(8), null);
       };
 
-      User.findOne({ where: { email: email } })
+      User.findOne({
+        where: {
+          email: email,
+          id: req.user.id
+        }
+      })
         .then(dbUser => {
-          if (!dbUser) {
-            return done(null, false, { message: 'Email does not exist.' });
-          }
+          if (dbUser) {
 
-          if (!isValidPassword(dbUser.password, password)) {
-            return done(null, false, { message: 'Incorrect password.' });
-          }
+            let userPassword = generateHash(password);
 
-          const userinfo = dbUser.get();
-          return done(null, userinfo);
-        }).catch(err => {
-          console.log('Error: ', err);
-          return done(null, false, { message: 'Something went wrong with signin.'});
+
+            User.update({
+              password: userPassword
+            }, {
+              where: {
+                email: email
+              }
+            }).then(function (rowsUpdated) {
+              var transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                  user: 'joehoffmann095@gmail.com',
+                  pass: 'Jjh@5682'
+                }
+              });
+
+              var mailOptions = {
+                from: 'joehoffmann095@gmail.com',
+                to: email,
+                subject: 'PASSWORD CHANGED',
+                text: 'The password linked to this email has been changed!  If this was not you please contact customer support.'
+              };
+
+              transporter.sendMail(mailOptions, function (error, info) {
+                console.log('SEND TO EMAIL');
+                if (error) {
+                  console.log('WHY IS THERE AN ERROR', error);
+                } else {
+                  console.log('Email sent: ' + info.response);
+                }
+              });
+              return done(null, dbUser);
+            })
+              .catch(function (err) {
+                console.log(err);
+              });
+
+
+          } else {
+            return done(null, false, {
+              message: 'That username is already taken.'
+            });
+
+          }
         });
-    }
-  ));
+    }));
 };
