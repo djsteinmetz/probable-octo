@@ -33,14 +33,27 @@ module.exports = function (app) {
 
   // Load index page
   app.get('/', function (req, res) {
-    let opportunities = db.Opportunity.findAll({ include: [db.User] });
-    let adminUsers = db.User.findAll({ where: { permissions: 'admin' } });
+    let opportunities = db.Opportunity.findAll({
+      include: [db.User],
+      order: [['deadline', 'ASC']]
+    });
 
-    Promise.all([opportunities, adminUsers]).then(data => {
+    let recentOpportunities = db.Opportunity.findAll({
+      order: [['createdAt', 'DESC']],
+      limit: 5
+    });
+
+    let adminUsers = db.User.findAll({
+      where: { permissions: 'admin' },
+      order: [['createdAt', 'DESC']],
+      limit: 5
+    });
+
+    Promise.all([opportunities, recentOpportunities, adminUsers]).then(data => {
       const hbsObj = {
         opportunities: data[0],
-        recentOpportunities: data[0].slice(0, 5),
-        users: data[1],
+        recentOpportunities: data[1],
+        users: data[2],
         activeUser: req.user,
         homepage: true,
         isAdmin: getAdmin(req)
