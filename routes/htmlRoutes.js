@@ -27,7 +27,7 @@ module.exports = function (app) {
   });
 
   app.get('/account', auth.isLoggedIn, function (req, res) {
-    var hbsObj = { activeUser: req.user };
+    var hbsObj = { activeUser: req.user, isAdmin: getAdmin(req) };
     res.render('account', hbsObj);
   });
 
