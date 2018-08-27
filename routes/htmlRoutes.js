@@ -112,7 +112,7 @@ module.exports = function (app) {
 
   app.get('/collections', auth.isAdmin, function (req, res) {
     db.Collection.findAll({
-      include: [db.Item]
+      include: [db.Item, db.User]
     }).then(function (dbCollections) {
       var hbsObj = {
         collections: dbCollections,
