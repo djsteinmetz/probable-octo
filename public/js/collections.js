@@ -1,4 +1,16 @@
 $(document).ready(function () {
+  $('.colDisplay').on('click', function(event) {
+    event.preventDefault();
+    var $addCol = $('#addCol');
+    $addCol.toggleClass('hidden');
+  });
+  $('.itemDisplay').on('click', function(event) {
+    event.preventDefault();
+    var $addItem = $('#addItem');
+    $addItem.toggleClass('hidden');
+  });
+
+
   $('#submit-collection-form').on('submit', function (event) {
 
     event.preventDefault();
