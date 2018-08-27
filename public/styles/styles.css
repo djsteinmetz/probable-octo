@@ -85,6 +85,9 @@ h2 {
 #navbarNav {
   vertical-align: middle;
   height: 100%;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: .9rem;
 }
 
 .spacer {

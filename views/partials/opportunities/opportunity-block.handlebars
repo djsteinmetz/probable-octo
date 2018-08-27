@@ -9,7 +9,7 @@
                         </div>
                         {{#compare @root.activeUser.name User.name}}
                         <div class="col-md-1 text-right">
-                            <h2>{{#if @root.isAdmin}}<i class="far fa-trash-alt deleteReq" data-id="{{id}}"></i>{{/if}}</h2>
+                            <h2 class="thin">{{#if @root.isAdmin}}<i class="far fa-trash-alt deleteReq" data-id="{{id}}"></i>{{/if}}</h2>
                         </div>
                         {{/compare}}
                     </div>
@@ -19,7 +19,7 @@
                 <div class="container">
                     <div class="row">
                         <div class={{#unless @root.activeUser}}"col-md-12"{{/unless}}{{#if @root.activeUser}}"col-md-9"{{/if}}>
-                            {{description}}
+                            <h2 class="thin" style="font-size: 1.2rem">{{description}}</h2>
                         </div>
                         {{#if @root.activeUser}}
                         <div class="col-md-3 text-right bold" style="font-size: 1rem">
@@ -30,8 +30,8 @@
                 </div>
             </div>
             <div class="card-footer text-muted">
-                {{#compare @root.activeUser.name User.name operator="!="}}Posted by: <span class="bold" style="font-size: 1rem">{{User.name}}</span>{{/compare}}
-                {{#compare @root.activeUser.name User.name}}Posted by: <span class="bold" style="font-size: 1rem">You</span>{{/compare}}
+                {{#compare @root.activeUser.name User.name operator="!="}}<h2 class="bold" style="font-size: 1rem">Posted by: <span class="bold" style="font-size: 1rem">{{User.name}}</span></h2>{{/compare}}
+                {{#compare @root.activeUser.name User.name}}<h2 class="bold" style="font-size: 1rem">Posted by: <span class="bold" style="font-size: 1rem">You</span></h2>{{/compare}}
             </div>
         </div>
     </div>
