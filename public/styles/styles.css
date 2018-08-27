@@ -141,7 +141,22 @@ form {
   font-size: 15px;
   font-weight: bold;
 }
-
+.fa-plus:hover,
+.colDisplay:hover,
+.itemDisplay:hover {
+  cursor: -webkit-grab;
+  color: grey;
+}
+#addCol,
+#addItem {
+  transition: opacity 0.3s linear, height 2s step-start;
+}
+.hidden {
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
+  transition: opacity 0.3s linear, height 2s step-end;
+}
 /* Highlight */
 
 .highlight {

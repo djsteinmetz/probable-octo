@@ -10,18 +10,20 @@
     {{#unless collections}}
     <div class="row">
         <div class="col-md-12">
-            <h2 class="bold">You haven't added any collections!</h2>
+            {{#compare isAdmin false}}<h2 class="bold">You haven't added any collections!</h2>{{/compare}}
+            {{#compare isAdmin true}}There are no active collections!{{/compare}}
         </div>
     </div>
     {{/unless}} 
     {{#each collections}}{{> collections/collection-block}} {{/each}}
     <hr />
-    <div class="row">
+    {{#compare isAdmin false}}
+    <div class="row colDisplay">
         <div class="col-md-12">
-            <h2 class="headers">Add a Collection</h2>
+            <h2 class="headers"><i class="fas fa-plus"></i> Add a Collection</h2>
         </div>
     </div>
-    <div class="row">
+    <div class="row hidden" id="addCol">
         <div class="col-md-12">
             <form id="submit-collection-form">
                 <div class="form-group">
@@ -37,13 +39,12 @@
         </div>
     </div>
     <hr />
-<div class="container">
-    <div class="row">
+    <div class="row itemDisplay">
         <div class="col-md-12">
-            <h2 class="headers">Add an Item to a Collection</h2>
+            <h2 class="headers"><i class="fas fa-plus"></i> Add an Item to a Collection</h2>
         </div>
     </div>
-    <div class="row">
+    <div class="row hidden" id="addItem">
         <div class="col-md-12">
             <form id="submit-item-form">
                 <div class="form-group">
@@ -71,6 +72,7 @@
             </form>
         </div>
     </div>
+    {{/compare}}
 </div>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="/js/collections.js"></script>
