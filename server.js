@@ -5,6 +5,7 @@ var exphbs = require('express-handlebars');
 var passport = require('passport');
 var session = require('express-session');
 var moment = require('moment');
+var flash = require('connect-flash');
 
 var db = require('./models');
 
@@ -17,9 +18,17 @@ app.use(bodyParser.json());
 app.use(express.static('public'));
 
 // For Passport
-app.use(session({ secret: 'magical secret pony or something', resave: true, saveUninitialized: true })); // session secret
+app.use(session({
+  secret: 'magical secret pony or something',
+  resave: true,
+  saveUninitialized: true,
+  cookie: {
+    maxAge: 60000,
+  }
+}));
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
+app.use(flash());
 
 // Handlebars
 app.engine(

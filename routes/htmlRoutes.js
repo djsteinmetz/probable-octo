@@ -14,7 +14,7 @@ module.exports = function (app) {
     if (req.user) {
       res.redirect('/');
     } else {
-      res.render('login');
+      res.render('login', {message: req.flash('message')});
     }
   });
 
@@ -22,7 +22,7 @@ module.exports = function (app) {
     if (req.user) {
       res.redirect('/');
     } else {
-      res.render('register');
+      res.render('register', {message: req.flash('message')});
     }
   });
 
