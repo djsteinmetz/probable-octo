@@ -29,7 +29,6 @@ module.exports = function (passport, user) {
       usernameField: 'email',
       passwordField: 'password',
       passReqToCallback: true // allows us to pass back the entire request to the callback
-
     },
 
     function (req, email, password, done) {
@@ -45,9 +44,7 @@ module.exports = function (passport, user) {
       })
         .then(dbUser => {
           if (dbUser) {
-            return done(null, false, {
-              message: 'That username is already taken.'
-            });
+            return done(null, false, req.flash('message', 'That username is already taken.'));
 
           } else {
             let userPassword = generateHash(password);
@@ -93,24 +90,18 @@ module.exports = function (passport, user) {
     })
       .then(dbUser => {
         if (!dbUser) {
-          return done(null, false, {
-            message: 'Email does not exist.'
-          });
+          return done(null, false, req.flash('message', 'Email does not exist'));
         }
 
         if (!isValidPassword(dbUser.password, password)) {
-          return done(null, false, {
-            message: 'Incorrect password.'
-          });
+          return done(null, false, req.flash('message', 'Incorrect Password'));
         }
 
         const userinfo = dbUser.get();
         return done(null, userinfo);
       }).catch(err => {
         console.log('Error: ', err);
-        return done(null, false, {
-          message: 'Something went wrong with signin.'
-        });
+        return done(null, false, req.flash('Something went wrong with signin.'));
       });
   }
   ));
